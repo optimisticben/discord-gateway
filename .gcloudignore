@@ -1,0 +1,11 @@
+.gcloudignore
+.git
+.gitignore
+.venv
+__pycache__
+docs
+LICENSE
+Makefile
+readme.md
+run.sh
+server.py
