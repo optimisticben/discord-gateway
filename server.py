@@ -1,15 +1,13 @@
 from gevent.pywsgi import WSGIServer
 from app import app
-import yaml
+import os
 
-with open("config.yaml","r") as stream:
-    try:
-        config = yaml.safe_load(stream)
-    except yaml.YAMLError as exc:
-        print(exc)
-        quit(1)
+DISCORD_CATCHA_PORT = 5000
 
-print(f"Serving on port {config['server']['port']}")
+if os.environ.get('DISCORD_CATCHA_PORT') != "":
+    DISCORD_CATCHA_PORT = os.environ.get('DISCORD_CATCHA_PORT')
 
-http_server = WSGIServer(('', config["server"]["port"]), app)
+print(f"Serving on port {DISCORD_CATCHA_PORT}")
+
+http_server = WSGIServer(('', int(DISCORD_CATCHA_PORT)), app)
 http_server.serve_forever()

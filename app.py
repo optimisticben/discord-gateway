@@ -8,45 +8,40 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 from flask import Flask, render_template, request, redirect
 import yaml
 import requests
+import os
 
-with open("config.yaml","r") as stream:
-    try:
-        config = yaml.safe_load(stream)
-    except yaml.YAMLError as exc:
-        print(exc)
-        quit(1)
+config = {}
+config["recaptcha"] = {}
+config["discord"] = {}
+config["server"] = {}
 
-
-if "dark_theme" not in config:
-    print("!! Theme not defined")
-if "recaptcha" in config:
-    if config["recaptcha"]["public"] == None:
-        print("!! Recaptcha public key is not defined, exiting")
-        quit(1)
-    if config["recaptcha"]["private"] == None:
-        print("!! Recaptcha private key is not defined, exiting")
-        quit(1)
+if os.environ.get('DISCORD_CATCHA_DARK_THEME') != "":
+    config["dark_theme"] = os.environ.get('DISCORD_CATCHA_DARK_THEME')
 else:
-    print("!! Recaptcha config doesnt exist, exiting")
+    config["dark_theme"] = True
+
+if os.environ.get('DISCORD_CATCHA_RECAPTCHA_PUBLIC') != "":
+    config["recaptcha"]["public"] = os.environ.get('DISCORD_CATCHA_RECAPTCHA_PUBLIC')
+else:
+    print("!! Recaptcha public key is not defined, exiting")
     quit(1)
 
-if "discord" in config:
-    if config["discord"]["welcome_room"] == None:
-        print("!! Discord welcome room not defined, exiting")
-        quit(1)
-    if config["discord"]["private"] == None:
-        print("!! Discord private key is not defined, exiting")
-        quit(1)
+if os.environ.get('DISCORD_CATCHA_RECAPTCHA_PRIVATE') != "":
+    config["recaptcha"]["private"] = os.environ.get('DISCORD_CATCHA_RECAPTCHA_PRIVATE')
 else:
-    print("!! Discord config doesnt exist, exiting")
+    print("!! Recaptcha private key is not defined, exiting")
     quit(1)
 
-if "server" in config:
-    if config["server"]["port"] == None:
-        print("!! Server port not defined, exiting")
-        quit(1)
+if os.environ.get('DISCORD_CATCHA_DISCORD_ROOM') != "":
+    config["discord"]["welcome_room"] = os.environ.get('DISCORD_CATCHA_DISCORD_ROOM')
 else:
-    print("!! Sever config not defined, exiting")
+    print("!! Discord welcome room not defined, exiting")
+    quit(1)
+
+if os.environ.get('DISCORD_CATCHA_DISCORD_PRIVATE') != "":
+    config["discord"]["private"] = os.environ.get('DISCORD_CATCHA_DISCORD_PRIVATE')
+else:
+    print("!! Discord private key is not defined, exiting")
     quit(1)
 
 def recaptcha(token):
@@ -62,7 +57,7 @@ def recaptcha(token):
 
 def invite():
     resp = requests.post(
-        'https://discordapp.com/api/channels/%s/invites' % config["discord"]["welcome_room"], 
+        'https://discordapp.com/api/channels/%s/invites' % config["discord"]["welcome_room"],
         headers={'Authorization': 'Bot %s' % config["discord"]["private"]},
         json={'max_uses': 1, 'unique': True, 'expires': 300}
     )
