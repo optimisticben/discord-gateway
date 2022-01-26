@@ -9,7 +9,7 @@ from flask import Flask, render_template, request, redirect
 import yaml
 import requests
 
-with open("config.yaml","r") as stream:
+with open("/secret/config.yaml","r") as stream:
     try:
         config = yaml.safe_load(stream)
     except yaml.YAMLError as exc:
@@ -62,7 +62,7 @@ def recaptcha(token):
 
 def invite():
     resp = requests.post(
-        'https://discordapp.com/api/channels/%s/invites' % config["discord"]["welcome_room"], 
+        'https://discordapp.com/api/channels/%s/invites' % config["discord"]["welcome_room"],
         headers={'Authorization': 'Bot %s' % config["discord"]["private"]},
         json={'max_uses': 1, 'unique': True, 'expires': 300}
     )

@@ -1,1 +1,1 @@
-./.venv/bin/python3 server.py
+./.venv/bin/python3 start.py
