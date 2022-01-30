@@ -96,6 +96,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
         .discord-warning__rules-container {
             list-style: none;
+            padding: 0;
         }
 
         li {
@@ -123,6 +124,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             font-weight: 400;
         }
 
+        .rc-anchor-dark .rc-anchor-logo-text, .rc-anchor-dark div a:link, .rc-anchor-dark div a:visited {
+            color: #555555 !important;
+        }
+
+        .rc-anchor-dark {
+            background: #F9F9F9 !important;
+            color: #000 !important;
+        }
+
+        .rc-anchor-dark.rc-anchor-normal {
+            border: 1px solid #D3D3D3 !important;
+        }
+
         .discord-warning__rules-img {
             width: 48px;
             height: 48px;
@@ -136,7 +150,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         /* mobile portrait */
         @media screen and (max-width: 720px) {
             li {
-                width: 348px;
+                width: 320px;
+            }
+        }
+
+        /* mobile screen small */
+        @media screen and (max-width: 330px) {
+            li {
+                width: 250px;
+                margin-right: 0px;
             }
         }
     </style>
