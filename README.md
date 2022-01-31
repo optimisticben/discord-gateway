@@ -36,8 +36,7 @@ gcloud beta run deploy discord-gateway \
   --source . \
   --port=5000 \
   --set-secrets=/secret/config.yaml=discord-gateway-config:latest \
-  --region=us-east4 \
-  --no-traffic
+  --region=us-east4
 ```
 
 ## Custom domain name
