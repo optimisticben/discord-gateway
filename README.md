@@ -11,6 +11,21 @@ gcloud secrets create discord-gateway-config --data-file=config.yaml
 Allow GCP Cloud run to access the secret.
 Follow these steps https://cloud.google.com/run/docs/configuring/secrets#access-secret
 
+## Test changes
+
+From the repo root, run the deploy command with the `--no-traffic` flag.
+
+This willl create a deployment but not cut traffic over to it.
+```
+gcloud beta run deploy discord-gateway \
+  --allow-unauthenticated \
+  --source . \
+  --port=5000 \
+  --set-secrets=/secret/config.yaml=discord-gateway-config:latest \
+  --region=us-east4 \
+  --no-traffic
+```
+
 ## Deploy
 
 From the repo root, this command will build and deploy a new container with your changes.
@@ -21,7 +36,8 @@ gcloud beta run deploy discord-gateway \
   --source . \
   --port=5000 \
   --set-secrets=/secret/config.yaml=discord-gateway-config:latest \
-  --region=us-east4
+  --region=us-east4 \
+  --no-traffic
 ```
 
 ## Custom domain name
